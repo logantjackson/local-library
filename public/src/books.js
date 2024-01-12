@@ -28,6 +28,22 @@ function getBorrowersForBook(book, accounts) {
   return borrowers.slice(0, 10);
 }
 
+//helper function
+function getCountsAndSort(items, keyExtractor, limit = 5) {
+  const counts = items.reduce((countMap, item) => {
+    const key = keyExtractor(item);
+    countMap[key] = (countMap[key] || 0) + 1;
+    return countMap;
+  }, {});
+
+  const sortedArray = Object.entries(counts)
+    .map(([key, count]) => ({ key, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, limit);
+
+  return sortedArray;
+}
+
 module.exports = {
   findAuthorById,
   findBookById,
